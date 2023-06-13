@@ -1,0 +1,3 @@
+<template>
+  <AboutSection />
+</template>

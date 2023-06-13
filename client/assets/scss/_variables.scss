@@ -1,0 +1,49 @@
+:root {
+  // custom colors here
+
+  // sizing
+  --base-header-height: 75px;
+  --base-footer-height: 150px;
+
+  // base color variables (from the color palette)
+  --base-heading-color: #000;
+  --base-text-color: #262626;
+  --base-link-color: #333;
+
+  --baseball-red: #c0053c;
+  --baseball-blue: #082c75;
+
+  // base font variables
+  --root-font-size: 62.5%;
+  --base-font-size: 1.6rem;
+  --base-line-height: 1.4;
+  --base-heading-line-height: 1.1;
+  --base-heading-font-weight: 700;
+
+  // base gap variables
+  --base-gap: 2rem;
+  --base-small-gap: 1rem;
+  --base-large-gap: 3rem;
+
+  // base container variables
+  --base-container-padding: 1rem;
+  --base-container-width: 90vw;
+  --base-container-max-width: 90vw;
+  --base-container-margin: max(calc((100vw - var(--base-container-width)) / 2), calc((100vw - var(--base-container-max-width)) / 2));
+}
+
+@include breakpoint(medium) {
+  :root {
+    --base-container-padding: 5rem;
+    --base-gap: 2.5rem;
+    --base-small-gap: 1.5rem;
+    --base-large-gap: 4rem;
+  }
+}
+
+@include breakpoint(large) {
+  :root {
+    --base-gap: 3rem;
+    --base-large-gap: 6rem;
+  }
+}
