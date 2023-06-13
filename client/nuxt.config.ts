@@ -2,15 +2,13 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      titleTemplate: (titleChunk) => {
-        return titleChunk ? `${titleChunk} | Nuxt 3 Starter` : 'Nuxt 3 Starter';
-      },
+      title: 'Name That Player',
       meta: [
-        { name: 'description', content: 'A Nuxt 3 starter template' },
+        { name: 'description', content: 'A historical baseball guessing game!' },
         { hid: 'og-type', property: 'og:type', content: 'website' },
-        { hid: 'og-title', property: 'og:title', content: 'Flagle' },
-        { hid: 'og-desc', property: 'og:description', content: 'A Nuxt 3 starter template' },
-        { hid: 'og-image', property: 'og:image', content: '/meta.jpg' }
+        { hid: 'og-title', property: 'og:title', content: 'Name That Player' },
+        { hid: 'og-desc', property: 'og:description', content: 'A historical baseball guessing game!' },
+        { hid: 'og-image', property: 'og:image', content: 'https://main.d36jjxhupx9f3e.amplifyapp.com/meta.jpg' }
       ],
       link: [{ rel: 'icon', type: 'image/png', href: 'favicon.png' }]
     },
