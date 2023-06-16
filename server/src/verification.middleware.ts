@@ -6,7 +6,7 @@ export function verify(req: Request, res: Response, next: NextFunction) {
     next();
   } else {
     throw new HttpException(
-      `Invalid referer: ${req.hostname}`,
+      `Invalid referer: ${req.headers.referer}`,
       HttpStatus.UNAUTHORIZED,
     );
   }
