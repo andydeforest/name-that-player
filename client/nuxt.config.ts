@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     dirs: ['stores']
   },
   runtimeConfig: {
+    apiToken: process.env.API_KEY,
     public: {
       baseURL: process.env.BASE_URL || 'http://localhost:3000'
     }
