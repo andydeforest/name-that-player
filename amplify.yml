@@ -1,0 +1,17 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci
+        build:
+          commands:
+            - npm run client:generate
+      artifacts:
+        baseDirectory: apps/client/.output/public
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
