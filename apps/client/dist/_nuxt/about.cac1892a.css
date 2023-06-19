@@ -1,1 +1,0 @@
-.about-section__intro{display:flex;flex-direction:column;gap:var(--base-gap)}.about-section__intro>div{display:flex;flex-direction:column;gap:var(--base-small-gap)}.about-section__intro>div>ul{font-size:var(--paragraph-font-size);list-style:outside;margin-left:2rem}.about-section__intro>div>ul>li{margin-bottom:1rem}
