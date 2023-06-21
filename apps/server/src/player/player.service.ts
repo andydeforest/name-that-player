@@ -40,7 +40,7 @@ export class PlayerService {
       .andWhere('"debut" <= :before', { before });
 
     // the player has an allstar appearahce
-    if (difficulty === 'normal' || difficulty === 'hard') {
+    if (difficulty === 'normal') {
       queryBuilder.andWhere('"allstarAppearances" IS NOT NULL');
     }
 

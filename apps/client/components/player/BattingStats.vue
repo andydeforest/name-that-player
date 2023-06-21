@@ -29,7 +29,7 @@
             <th>OBP</th>
             <th>SLG</th>
             <th>OPS</th>
-            <th v-if="allstar.length">Awards</th>
+            <th v-if="allstar?.length">Awards</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +58,7 @@
             <td>{{ formatAverage(year.onBase) }}</td>
             <td>{{ formatAverage(year.slugging) }}</td>
             <td>{{ formatOps(year.onBase + year.slugging) }}</td>
-            <td v-if="allstar.length">
+            <td v-if="allstar?.length">
               <strong v-if="allstar.includes(year.year.toString())">AS</strong>
             </td>
           </tr>

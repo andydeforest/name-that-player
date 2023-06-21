@@ -122,6 +122,7 @@ export default {
       teams: [] as TeamList[],
       loadingTeams: true,
       optionsDialogOpen: false,
+      optionsToCheck: ['difficulty', 'mode', 'team', 'dateRange'],
     };
   },
   async mounted() {
@@ -141,11 +142,18 @@ export default {
     }
   },
   methods: {
+    stringifyOptions() {
+      const options = {};
+      this.optionsToCheck.forEach((opt) => {
+        options[opt] = this.options[opt];
+      });
+      return JSON.stringify(options);
+    },
     dialogOpened() {
-      this.optionsCache = JSON.stringify(this.options);
+      this.optionsCache = this.stringifyOptions();
     },
     dialogClosed() {
-      if (JSON.stringify(this.options) !== this.optionsCache) {
+      if (this.stringifyOptions() !== this.optionsCache) {
         this.$emit('load-player');
       }
     },

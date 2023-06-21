@@ -32,7 +32,7 @@
             <th>SH</th>
             <th>SF</th>
             <th>GIDP</th>
-            <th v-if="allstar.length">Awards</th>
+            <th v-if="allstar?.length">Awards</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@
             <td>{{ year.sacHits }}</td>
             <td>{{ year.sacFlies }}</td>
             <td>{{ year.gidp }}</td>
-            <td v-if="allstar.length">
+            <td v-if="allstar?.length">
               <strong v-if="allstar.includes(year.year.toString())">AS</strong>
             </td>
           </tr>
