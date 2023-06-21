@@ -26,6 +26,10 @@
             <th>SH</th>
             <th>SF</th>
             <th>GIDP</th>
+            <th>OBP</th>
+            <th>SLG</th>
+            <th>OPS</th>
+            <th v-if="allstar.length">Awards</th>
           </tr>
         </thead>
         <tbody>
@@ -35,7 +39,7 @@
             <td>{{ year.league }}</td>
             <td>{{ year.games }}</td>
             <td>{{ year.atBats }}</td>
-            <td>.{{ (year.battingAverage * 1000).toFixed(0).padStart(3, "0") }}</td>
+            <td>{{ formatAverage(year.battingAverage) }}</td>
             <td>{{ year.runs }}</td>
             <td>{{ year.hits }}</td>
             <td>{{ year.doubles }}</td>
@@ -51,6 +55,12 @@
             <td>{{ year.sacHits }}</td>
             <td>{{ year.sacFlies }}</td>
             <td>{{ year.gidp }}</td>
+            <td>{{ formatAverage(year.onBase) }}</td>
+            <td>{{ formatAverage(year.slugging) }}</td>
+            <td>{{ formatOps(year.onBase + year.slugging) }}</td>
+            <td v-if="allstar.length">
+              <strong v-if="allstar.includes(year.year.toString())">AS</strong>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -59,13 +69,28 @@
 </template>
 
 <script lang="ts">
-import { BattingStats } from "~/types";
+import { BattingStats } from '~/types';
 
 export default {
   props: {
     stats: {
       type: Object as () => BattingStats,
       required: true,
+    },
+    allstar: {
+      type: Array,
+      default: [],
+    },
+  },
+  methods: {
+    formatAverage(average: number): string {
+      return `.${(average * 1000).toFixed(0).padStart(3, '0')}`;
+    },
+    formatOps(ops: number): string {
+      if (ops < 1) {
+        return this.formatAverage(ops);
+      }
+      return `${ops.toFixed(3)}`;
     },
   },
 };

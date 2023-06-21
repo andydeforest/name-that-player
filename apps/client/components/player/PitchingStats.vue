@@ -1,8 +1,6 @@
 <template>
   <div class="player-stats">
-    <h2>
-      Pitching Stats
-    </h2>
+    <h2>Pitching Stats</h2>
     <div class="stats-table">
       <table>
         <thead>
@@ -34,6 +32,7 @@
             <th>SH</th>
             <th>SF</th>
             <th>GIDP</th>
+            <th v-if="allstar.length">Awards</th>
           </tr>
         </thead>
         <tbody>
@@ -54,7 +53,11 @@
             <td>{{ year.homeRuns }}</td>
             <td>{{ year.walks }}</td>
             <td>{{ year.strikeouts }}</td>
-            <td>.{{ (year.opponentBattingAverage * 1000).toFixed(0).padStart(3, '0') }}</td>
+            <td>
+              .{{
+                (year.opponentBattingAverage * 1000).toFixed(0).padStart(3, '0')
+              }}
+            </td>
             <td>{{ year.era }}</td>
             <td>{{ year.ibb }}</td>
             <td>{{ year.wildPitches }}</td>
@@ -65,6 +68,9 @@
             <td>{{ year.sacHits }}</td>
             <td>{{ year.sacFlies }}</td>
             <td>{{ year.gidp }}</td>
+            <td v-if="allstar.length">
+              <strong v-if="allstar.includes(year.year.toString())">AS</strong>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -79,8 +85,12 @@ export default {
   props: {
     stats: {
       type: Object as () => PitchingStats,
-      required: true
-    }
+      required: true,
+    },
+    allstar: {
+      type: Array,
+      default: [],
+    },
   },
   methods: {
     formatIp(inningsPitched: number): string {
@@ -92,7 +102,7 @@ export default {
         ip += 0.2;
       }
       return ip.toFixed(1);
-    }
-  }
+    },
+  },
 };
 </script>

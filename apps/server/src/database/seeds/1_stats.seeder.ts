@@ -26,31 +26,50 @@ export default class StatsSeeder implements Seeder {
         for (const stats of parsed.data) {
           const player = await repo.findOneBy({ id: stats[0] });
           if (player && type === 'batting') {
-            let index = 1;
+            const atBats = Number.parseInt(stats[6]);
+            const hits = Number.parseInt(stats[8]);
+            const doubles = Number.parseInt(stats[9]);
+            const triples = Number.parseInt(stats[10]);
+            const homeRuns = Number.parseInt(stats[11]);
+            const singles = hits - (triples + doubles + homeRuns);
+            const walks = Number.parseInt(stats[15]);
+            const hitByPitch = Number.parseInt(stats[18]);
+            const sacFlies = Number.parseInt(stats[20]);
+
+            const slugging =
+              // eslint-disable-next-line prettier/prettier
+              (singles + doubles * 2 + triples * 3 + homeRuns * 4) / atBats;
+
+            const onBase =
+              (hits + walks + hitByPitch) /
+              (atBats + walks + hitByPitch + sacFlies);
+
             const battingStats: SeasonBattingStats = {
-              year: Number.parseInt(stats[index++]),
-              stint: Number.parseInt(stats[index++]),
-              team: stats[index++],
-              league: stats[index++],
-              games: stats[index++],
+              year: Number.parseInt(stats[1]),
+              stint: Number.parseInt(stats[2]),
+              team: stats[3],
+              league: stats[4],
+              games: stats[5],
               battingAverage:
                 Number.parseInt(stats[8]) / Number.parseInt(stats[6]),
-              atBats: stats[index++],
-              runs: stats[index++],
-              hits: stats[index++],
-              doubles: stats[index++],
-              triples: stats[index++],
-              homeRuns: stats[index++],
-              runsBattedIn: stats[index++],
-              stolenBases: stats[index++],
-              caughtStealing: stats[index++],
-              walks: stats[index++],
-              strikeouts: stats[index++],
-              ibb: stats[index++],
-              hitByPitch: stats[index++],
-              sacHits: stats[index++],
-              sacFlies: stats[index++],
-              gidp: stats[index++],
+              atBats,
+              runs: stats[7],
+              hits,
+              doubles,
+              triples,
+              homeRuns,
+              runsBattedIn: stats[12],
+              stolenBases: stats[13],
+              caughtStealing: stats[14],
+              walks,
+              strikeouts: stats[16],
+              ibb: stats[17],
+              hitByPitch,
+              sacHits: stats[19],
+              sacFlies,
+              gidp: stats[21],
+              slugging,
+              onBase,
             };
             if (player.battingStats === null) {
               player.battingStats = { career: [] };

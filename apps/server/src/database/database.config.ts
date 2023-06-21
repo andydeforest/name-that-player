@@ -16,7 +16,7 @@ const options: DataSourceOptions & SeederOptions = {
   username: configService.get<string>('DB_USERNAME'),
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get<string>('DB_DATABASE'),
-  seeds: ['src/database/seeds/**/*{.ts,.js}'],
+  seeds: ['apps/server/src/database/seeds/**/*{.ts,.js}'],
   entities: [Player, Team],
 };
 

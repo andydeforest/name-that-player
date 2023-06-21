@@ -36,6 +36,8 @@ export interface SeasonBattingStats {
   sacHits: number;
   sacFlies: number;
   gidp: number;
+  slugging: number;
+  onBase: number;
 }
 
 export interface BattingStats {

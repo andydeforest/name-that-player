@@ -68,7 +68,7 @@
           </div>
           <div>
             The current rules are selected to generate players that:
-            <ul>
+            <ul class="game-options__dialog--rules">
               <li>
                 Played on
                 {{
@@ -188,6 +188,16 @@ export default {
 
   &__dialog {
     gap: var(--base-small-gap);
+
+    &--rules {
+      list-style-type: disc;
+      margin-top: 1rem;
+
+      > li {
+        margin-left: 2rem;
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 }
 </style>

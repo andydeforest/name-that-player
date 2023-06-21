@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "db:seed": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -r apps/server/src/database -d database.config.ts",
     "dev": "concurrently \"npm run server:start:dev\" \"npm run client:dev\"",
     "client:build": "nuxt build",
     "client:dev": "nuxt dev",
