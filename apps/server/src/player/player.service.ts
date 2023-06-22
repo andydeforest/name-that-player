@@ -27,10 +27,7 @@ export class PlayerService {
     end?: string,
     team?: string,
   ): Promise<Player | null> {
-    const queryBuilder = this.playerRepository
-      .createQueryBuilder()
-      .select()
-      .orderBy('RANDOM()');
+    const queryBuilder = this.playerRepository.createQueryBuilder().select();
 
     const after = new Date(Number.parseInt(start), 0, 1);
     const before = new Date(Number.parseInt(end), 0, 1);
@@ -56,10 +53,18 @@ export class PlayerService {
       );
     }
 
-    const player = await queryBuilder.getOne();
+    const players = await queryBuilder.getMany();
 
-    // if the given criteria was unable to locate a player,
-    // strip all criteria and try again
-    return player || this.getRandom('normal', start, end);
+    if (!players.length) {
+      // if the given criteria was unable to locate a player,
+      // strip all criteria and try again
+      return this.getRandom('normal', start, end);
+    }
+
+    // shuffle the results
+    return players
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)[0];
   }
 }
