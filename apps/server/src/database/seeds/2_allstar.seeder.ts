@@ -13,14 +13,14 @@ export default class AllstarSeeder implements Seeder {
     const csvData = rawData.toString();
 
     const parsed = await parse(csvData, {
-      header: false,
+      header: true,
       skipEmptyLines: true,
       complete: (results) => results.data,
     });
 
     if (Array.isArray(parsed.data)) {
       for (const allstar of parsed.data) {
-        const player = await repo.findOneBy({ id: allstar[0] });
+        const player = await repo.findOneBy({ id: allstar['playerID'] });
 
         if (!player) {
           continue;
@@ -29,7 +29,7 @@ export default class AllstarSeeder implements Seeder {
         if (player.allstarAppearances === null) {
           player.allstarAppearances = [];
         }
-        player.allstarAppearances.push(Number.parseInt(allstar[1]));
+        player.allstarAppearances.push(Number.parseInt(allstar['yearID']));
         await repo.save(player);
       }
     }

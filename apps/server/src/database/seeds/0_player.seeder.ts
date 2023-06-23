@@ -16,17 +16,17 @@ export default class PlayerSeeder implements Seeder {
     const csvData = rawData.toString();
 
     const parsed = await parse(csvData, {
-      header: false,
+      header: true,
       skipEmptyLines: true,
       complete: (results) => results.data,
     });
 
     if (Array.isArray(parsed.data)) {
       for (const player of parsed.data) {
-        const debut = player[20];
-        const last = player[21];
-        const id = player[0];
-        const name = player[13] + ' ' + player[14];
+        const debut = player.debut;
+        const last = player.finalGame;
+        const id = player.playerID;
+        const name = player.nameFirst + ' ' + player.nameLast;
         let sharesName = false;
 
         if (!debut.length || !last.length) {
@@ -47,10 +47,10 @@ export default class PlayerSeeder implements Seeder {
         const p = new Player();
         p.id = id;
         p.name = name;
-        p.bats = player[18];
-        p.throws = player[19];
-        p.debut = new Date(player[20]);
-        p.lastAppearance = new Date(player[21]);
+        p.bats = player.bats;
+        p.throws = player.throws;
+        p.debut = new Date(player.debut);
+        p.lastAppearance = new Date(player.finalGame);
         p.sharesName = sharesName;
         await repo.save(p);
       }

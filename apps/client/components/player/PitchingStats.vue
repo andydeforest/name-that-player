@@ -69,7 +69,12 @@
             <td>{{ year.sacFlies }}</td>
             <td>{{ year.gidp }}</td>
             <td v-if="allstar?.length">
-              <strong v-if="allstar.includes(year.year.toString())">AS</strong>
+              <strong
+                v-if="
+                  allstar.includes(year.year.toString()) && year.stint === 1
+                "
+                >AS</strong
+              >
             </td>
           </tr>
         </tbody>

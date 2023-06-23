@@ -59,7 +59,12 @@
             <td>{{ formatAverage(year.slugging) }}</td>
             <td>{{ formatOps(year.onBase + year.slugging) }}</td>
             <td v-if="allstar?.length">
-              <strong v-if="allstar.includes(year.year.toString())">AS</strong>
+              <strong
+                v-if="
+                  allstar.includes(year.year.toString()) && year.stint === 1
+                "
+                >AS</strong
+              >
             </td>
           </tr>
         </tbody>

@@ -41,6 +41,7 @@
     "@pinia/nuxt": "^0.4.8",
     "@types/node": "^18",
     "concurrently": "^8.2.0",
+    "dotenv": "^16.3.1",
     "mande": "^2.0.6",
     "nuxt": "^3.5.2",
     "papaparse": "^5.4.1",
@@ -49,6 +50,7 @@
     "rxjs": "^7.2.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
+    "simple-git": "^3.19.0",
     "typeorm-extension": "^2.8.1"
   },
   "devDependencies": {

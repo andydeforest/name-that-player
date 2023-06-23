@@ -17,24 +17,24 @@ export default class StatsSeeder implements Seeder {
       const csvData = rawData.toString();
 
       const parsed = await parse(csvData, {
-        header: false,
+        header: true,
         skipEmptyLines: true,
         complete: (results) => results.data,
       });
 
       if (Array.isArray(parsed.data)) {
         for (const stats of parsed.data) {
-          const player = await repo.findOneBy({ id: stats[0] });
+          const player = await repo.findOneBy({ id: stats.playerID });
           if (player && type === 'batting') {
-            const atBats = Number.parseInt(stats[6]);
-            const hits = Number.parseInt(stats[8]);
-            const doubles = Number.parseInt(stats[9]);
-            const triples = Number.parseInt(stats[10]);
-            const homeRuns = Number.parseInt(stats[11]);
+            const atBats = Number.parseInt(stats['AB']);
+            const hits = Number.parseInt(stats['H']);
+            const doubles = Number.parseInt(stats['2B']);
+            const triples = Number.parseInt(stats['3B']);
+            const homeRuns = Number.parseInt(stats['HR']);
             const singles = hits - (triples + doubles + homeRuns);
-            const walks = Number.parseInt(stats[15]);
-            const hitByPitch = Number.parseInt(stats[18]);
-            const sacFlies = Number.parseInt(stats[20]);
+            const walks = Number.parseInt(stats['BB']);
+            const hitByPitch = Number.parseInt(stats['HBP']);
+            const sacFlies = Number.parseInt(stats['SF']);
 
             const slugging =
               // eslint-disable-next-line prettier/prettier
@@ -45,29 +45,28 @@ export default class StatsSeeder implements Seeder {
               (atBats + walks + hitByPitch + sacFlies);
 
             const battingStats: SeasonBattingStats = {
-              year: Number.parseInt(stats[1]),
-              stint: Number.parseInt(stats[2]),
-              team: stats[3],
-              league: stats[4],
-              games: stats[5],
-              battingAverage:
-                Number.parseInt(stats[8]) / Number.parseInt(stats[6]),
+              year: Number.parseInt(stats['yearID']),
+              stint: Number.parseInt(stats['stint']),
+              team: stats['teamID'],
+              league: stats['lgID'],
+              games: stats['G'],
+              battingAverage: hits / atBats,
               atBats,
-              runs: stats[7],
+              runs: stats['R'],
               hits,
               doubles,
               triples,
               homeRuns,
-              runsBattedIn: stats[12],
-              stolenBases: stats[13],
-              caughtStealing: stats[14],
+              runsBattedIn: stats['RBI'],
+              stolenBases: stats['SB'],
+              caughtStealing: stats['CS'],
               walks,
-              strikeouts: stats[16],
-              ibb: stats[17],
+              strikeouts: stats['SO'],
+              ibb: stats['IBB'],
               hitByPitch,
-              sacHits: stats[19],
+              sacHits: stats['SH'],
               sacFlies,
-              gidp: stats[21],
+              gidp: stats['GIDP'],
               slugging,
               onBase,
             };
@@ -77,36 +76,35 @@ export default class StatsSeeder implements Seeder {
             player.battingStats.career.push(battingStats);
             await repo.save(player);
           } else if (player && type === 'pitching') {
-            let index = 1;
             const pitchingStats: SeasonPitchingStats = {
-              year: Number.parseInt(stats[index++]),
-              stint: Number.parseInt(stats[index++]),
-              team: stats[index++],
-              league: stats[index++],
-              wins: stats[index++],
-              losses: stats[index++],
-              games: stats[index++],
-              gamesStarted: stats[index++],
-              completeGames: stats[index++],
-              shutouts: stats[index++],
-              saves: stats[index++],
-              inningsPitched: Number.parseFloat(stats[index++]) / 3,
-              hits: stats[index++],
-              earnedRuns: stats[index++],
-              homeRuns: stats[index++],
-              walks: stats[index++],
-              strikeouts: stats[index++],
-              opponentBattingAverage: stats[index++],
-              era: stats[index++],
-              ibb: stats[index++],
-              wildPitches: stats[index++],
-              hitByPitch: stats[index++],
-              balks: stats[index++],
-              gamesFinished: stats[25],
-              runs: stats[26],
-              sacHits: stats[27],
-              sacFlies: stats[28],
-              gidp: stats[29],
+              year: Number.parseInt(stats['yearID']),
+              stint: Number.parseInt(stats['stint']),
+              team: stats['teamID'],
+              league: stats['lgID'],
+              wins: stats['W'],
+              losses: stats['L'],
+              games: stats['G'],
+              gamesStarted: stats['GS'],
+              completeGames: stats['CG'],
+              shutouts: stats['SHO'],
+              saves: stats['SV'],
+              inningsPitched: Number.parseFloat(stats['IPouts']) / 3,
+              hits: stats['H'],
+              earnedRuns: stats['ER'],
+              homeRuns: stats['HR'],
+              walks: stats['BB'],
+              strikeouts: stats['SO'],
+              opponentBattingAverage: stats['BAOpp'],
+              era: stats['ERA'],
+              ibb: stats['IBB'],
+              wildPitches: stats['WP'],
+              hitByPitch: stats['HBP'],
+              balks: stats['BK'],
+              gamesFinished: stats['GF'],
+              runs: stats['R'],
+              sacHits: stats['SH'],
+              sacFlies: stats['SF'],
+              gidp: stats['GIDP'],
             };
             if (player.pitchingStats === null) {
               player.pitchingStats = { career: [] };
