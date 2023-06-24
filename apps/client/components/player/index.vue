@@ -32,7 +32,7 @@ export default {
       const awards = {};
 
       // Process all-star appearances
-      this.player.allstarAppearances.forEach((year) => {
+      this.player.allstarAppearances?.forEach((year) => {
         const key = year.toString();
         awards[key] = awards[key] || [];
         awards[key].push('AS');
