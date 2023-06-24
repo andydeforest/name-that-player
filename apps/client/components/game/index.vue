@@ -2,27 +2,30 @@
   <div class="game">
     <div>
       <div class="game__interface">
-        <div v-if="!reveal.showing" class="game__interface--top">
+        <div class="game__interface--top">
           <PlayerGuess
+            v-if="!reveal.showing"
             :loading="loading"
             @handle-guess="handleGuess"
             @handle-reveal="handleReveal"
           />
+          <template v-else>
+            <div class="game__interface--reveal">
+              Answer:
+              <strong>
+                <a :href="baseballReferenceUrl" target="_blank">{{
+                  player.name
+                }}</a>
+              </strong>
+            </div>
+            <el-button type="primary" @click="loadPlayer">Restart</el-button>
+          </template>
           <GameOptions @load-player="loadPlayer" />
         </div>
-        <div v-else class="game__interface--top">
-          <span
-            >Answer:
-            <strong
-              ><a :href="baseballReferenceUrl" target="_blank">{{
-                player.name
-              }}</a></strong
-            ></span
-          >
-          <el-button type="primary" @click="loadPlayer">Restart</el-button>
-        </div>
         <Player v-if="!loading && player" :player="player" />
-        <div v-else>Loading...</div>
+        <div v-else class="game__interface--loading">
+          <UILoader />
+        </div>
       </div>
     </div>
   </div>
@@ -113,6 +116,11 @@ export default {
       margin: 2rem 0;
     }
 
+    &--loading {
+      display: flex;
+      justify-content: center;
+    }
+
     &--top {
       display: flex;
       flex-direction: column-reverse;
@@ -128,6 +136,10 @@ export default {
         flex-direction: row;
         align-content: center;
       }
+    }
+
+    &--reveal {
+      font-size: 22px;
     }
   }
 }
