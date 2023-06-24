@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseBoolPipe, Query } from '@nestjs/common';
 import { PlayerService } from './player.service';
 
 @Controller('player')
@@ -16,11 +16,12 @@ export class PlayerController {
   }
 
   @Get('')
-  findRandom(
+  async findRandom(
     @Query('difficulty') difficulty: 'normal' | 'hard',
     @Query('team') team: string,
     @Query('start') start: string,
     @Query('end') end: string,
+    @Query('counting') counting: string,
   ) {
     difficulty = ['normal', 'hard'].includes(difficulty)
       ? difficulty
@@ -34,6 +35,12 @@ export class PlayerController {
       end = '2022';
     }
 
-    return this.playerService.getRandom(difficulty, start, end, team);
+    const pool = await this.playerService.getPool(difficulty, start, end, team);
+
+    if (counting && counting.toLowerCase() === 'true') {
+      return pool.length;
+    }
+
+    return pool[0];
   }
 }

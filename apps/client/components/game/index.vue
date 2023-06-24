@@ -58,13 +58,7 @@ export default {
       this.reveal.showing = false;
       this.guesses = [];
       try {
-        let urlStr = `player?difficulty=${this.options.difficulty}&start=${this.options.dateRange[0]}&end=${this.options.dateRange[1]}`;
-
-        if (this.options.mode === 'team') {
-          urlStr += `&team=${this.options.team}`;
-        }
-
-        const res = await useApi(urlStr).get();
+        const res = await useApi(`player?${this.options.urlParameters}`).get();
         this.player = res as BaseballPlayer;
       } catch (error) {
         // Handle the error appropriately

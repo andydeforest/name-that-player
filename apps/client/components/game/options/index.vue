@@ -86,13 +86,14 @@
               <li v-if="options.difficulty === 'normal'">
                 Played on at least 1 All Star team
               </li>
+              <li>
+                <i v-if="poolCheck.loading"
+                  >Calculating estimaed player pool...</i
+                >
+                <span v-else>Estimated player pool: {{ poolCheck.value }}</span>
+              </li>
             </ul>
-            <div
-              v-if="
-                options.dateRange[1] - options.dateRange[0] <= 5 &&
-                options.difficulty === 'normal'
-              "
-            >
+            <div v-if="poolCheck.value && poolCheck.value <= 100">
               <el-alert
                 title="Making options too restrictive can make the potential player pool too small"
                 type="warning"
@@ -118,11 +119,16 @@ export default {
   data() {
     return {
       options: useOptions(),
-      optionsCache: '',
+      optionsCache: '' as string,
       teams: [] as TeamList[],
-      loadingTeams: true,
-      optionsDialogOpen: false,
+      loadingTeams: true as boolean,
+      optionsDialogOpen: false as boolean,
       optionsToCheck: ['difficulty', 'mode', 'team', 'dateRange'],
+      poolCheck: {
+        value: null as null | number,
+        loading: false as boolean,
+        timer: null as null | NodeJS.Timeout,
+      },
     };
   },
   async mounted() {
@@ -136,6 +142,7 @@ export default {
         } as TeamList);
       });
       this.teams.sort((a, b) => a.label.localeCompare(b.label));
+      this.countPlayerPool();
     } catch (error) {
     } finally {
       this.loadingTeams = false;
@@ -156,6 +163,27 @@ export default {
       if (this.stringifyOptions() !== this.optionsCache) {
         this.$emit('load-player');
       }
+    },
+    async countPlayerPool() {
+      this.poolCheck.loading = true;
+      clearTimeout(this.poolCheck.timer as NodeJS.Timeout);
+
+      this.poolCheck.timer = setTimeout(async () => {
+        const res = await useApi(
+          `player?${this.options.urlParameters}&counting=true`,
+        ).get();
+
+        this.poolCheck.value = res as number;
+        this.poolCheck.loading = false;
+      }, 1000) as NodeJS.Timeout;
+    },
+  },
+  watch: {
+    options: {
+      handler() {
+        this.countPlayerPool();
+      },
+      deep: true,
     },
   },
 };

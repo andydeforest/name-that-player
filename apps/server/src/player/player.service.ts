@@ -21,12 +21,12 @@ export class PlayerService {
       .getMany();
   }
 
-  async getRandom(
+  async getPool(
     difficulty: 'normal' | 'hard',
     start?: string,
     end?: string,
     team?: string,
-  ): Promise<Player | null> {
+  ): Promise<Player[] | null> {
     const queryBuilder = this.playerRepository.createQueryBuilder().select();
 
     const after = new Date(Number.parseInt(start), 0, 1);
@@ -58,13 +58,13 @@ export class PlayerService {
     if (!players.length) {
       // if the given criteria was unable to locate a player,
       // strip all criteria and try again
-      return this.getRandom('normal', start, end);
+      return this.getPool('normal', start, end);
     }
 
     // shuffle the results
     return players
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value)[0];
+      .map(({ value }) => value);
   }
 }

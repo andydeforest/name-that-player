@@ -1,5 +1,6 @@
 import { PitchingStats } from './../pitchingStats.interface';
 import { BattingStats } from './../battingStats.interface';
+import { Awards } from './../awards.interface';
 import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
@@ -31,6 +32,12 @@ export class Player {
   @Column({ default: false })
   sharesName: boolean;
 
+  @Column({ default: false })
+  hasWonMvp: boolean;
+
+  @Column({ default: false })
+  hasWonCya: boolean;
+
   @Column({
     type: 'jsonb',
     nullable: true,
@@ -42,4 +49,10 @@ export class Player {
     nullable: true,
   })
   pitchingStats: PitchingStats;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  awards: Awards;
 }

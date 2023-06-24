@@ -2,20 +2,14 @@
   <div class="player">
     <div v-if="player.primarily === 'hitter'" class="player__stats">
       <div>
-        <PlayerBattingStats
-          :stats="player.battingStats"
-          :allstar="player.allstarAppearances"
-        />
+        <PlayerBattingStats :stats="player.battingStats" :awards="awards" />
       </div>
       <div v-if="player.pitchingStats !== null">
         <PlayerPitchingStats :stats="player.pitchingStats" />
       </div>
     </div>
     <div v-else class="player__stats">
-      <PlayerPitchingStats
-        :stats="player.pitchingStats"
-        :allstar="player.allstarAppearances"
-      />
+      <PlayerPitchingStats :stats="player.pitchingStats" :awards="awards" />
       <div v-if="player.battingStats !== null">
         <PlayerBattingStats :stats="player.battingStats" />
       </div>
@@ -31,6 +25,29 @@ export default {
     player: {
       type: Object as () => BaseballPlayer,
       required: true,
+    },
+  },
+  computed: {
+    awards() {
+      const awards = {};
+
+      // Process all-star appearances
+      this.player.allstarAppearances.forEach((year) => {
+        const key = year.toString();
+        awards[key] = awards[key] || [];
+        awards[key].push('AS');
+      });
+
+      // Process career awards
+      if (this.player.awards?.career?.length) {
+        this.player.awards.career.forEach((award) => {
+          const key = award.year.toString();
+          awards[key] = awards[key] || [];
+          awards[key].push(award.award);
+        });
+      }
+
+      return awards;
     },
   },
 };

@@ -5,4 +5,11 @@ export const useOptions = defineStore('options', {
     team: null,
     dateRange: [2002, 2022],
   }),
+  getters: {
+    urlParameters(): string {
+      return `difficulty=${this.difficulty}&start=${this.dateRange[0]}&end=${
+        this.dateRange[1]
+      }${this.team ? `&team=${this.team}` : ''}`;
+    },
+  },
 });

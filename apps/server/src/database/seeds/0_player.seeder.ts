@@ -4,10 +4,11 @@ import { DataSource } from 'typeorm/data-source';
 import { Seeder } from 'typeorm-extension';
 import { parse } from 'papaparse';
 import * as path from 'path';
+import { Repository } from 'typeorm';
 
 export default class PlayerSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {
-    const repo = dataSource.getRepository(Player);
+    const repo: Repository<Player> = dataSource.getRepository(Player);
 
     // clear data
     repo.clear();

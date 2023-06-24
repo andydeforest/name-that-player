@@ -29,7 +29,7 @@
             <th>OBP</th>
             <th>SLG</th>
             <th>OPS</th>
-            <th v-if="allstar?.length">Awards</th>
+            <th v-if="Object.keys(awards).length">Awards</th>
           </tr>
         </thead>
         <tbody>
@@ -58,13 +58,10 @@
             <td>{{ formatAverage(year.onBase) }}</td>
             <td>{{ formatAverage(year.slugging) }}</td>
             <td>{{ formatOps(year.onBase + year.slugging) }}</td>
-            <td v-if="allstar?.length">
-              <strong
-                v-if="
-                  allstar.includes(year.year.toString()) && year.stint === 1
-                "
-                >AS</strong
-              >
+            <td v-if="Object.keys(awards).length">
+              <strong v-if="Object.hasOwn(awards, year.year.toString())">
+                {{ awards[year.year.toString()].join(', ') }}
+              </strong>
             </td>
           </tr>
         </tbody>
@@ -74,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { BattingStats } from '~/types';
+import { BattingStats, Awards } from '~/types';
 
 export default {
   props: {
@@ -82,9 +79,9 @@ export default {
       type: Object as () => BattingStats,
       required: true,
     },
-    allstar: {
-      type: Array,
-      default: [],
+    awards: {
+      type: Object,
+      default: {},
     },
   },
   methods: {
