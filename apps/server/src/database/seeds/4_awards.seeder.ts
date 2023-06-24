@@ -33,7 +33,7 @@ export default class AwardSeeder implements Seeder {
           { label: 'NLCS MVP', abbreviation: 'NLCS MVP' },
           { label: 'ALCS MVP', abbreviation: 'ALCS MVP' },
           { label: 'Rookie of the Year', abbreviation: 'ROTY' },
-          { label: 'Pitching Triple Crown', abbreviation: '3C - P' },
+          { label: 'Pitching Triple Crown', abbreviation: '3C-P' },
           { label: 'Triple Crown', abbreviation: '3C' },
         ];
 

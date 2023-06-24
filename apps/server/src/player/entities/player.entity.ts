@@ -38,6 +38,9 @@ export class Player {
   @Column({ default: false })
   hasWonCya: boolean;
 
+  @Column({ default: false })
+  inductedToHof: boolean;
+
   @Column({
     type: 'jsonb',
     nullable: true,

@@ -59,7 +59,12 @@
             <td>{{ formatAverage(year.slugging) }}</td>
             <td>{{ formatOps(year.onBase + year.slugging) }}</td>
             <td v-if="Object.keys(awards).length">
-              <strong v-if="Object.hasOwn(awards, year.year.toString())">
+              <strong
+                v-if="
+                  Object.hasOwn(awards, year.year.toString()) &&
+                  year.stint === 1
+                "
+              >
                 {{ awards[year.year.toString()].join(', ') }}
               </strong>
             </td>

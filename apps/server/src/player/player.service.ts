@@ -22,7 +22,7 @@ export class PlayerService {
   }
 
   async getPool(
-    difficulty: 'normal' | 'hard',
+    difficulty: 'easy' | 'normal' | 'hard',
     start?: string,
     end?: string,
     team?: string,
@@ -32,12 +32,15 @@ export class PlayerService {
     const after = new Date(Number.parseInt(start), 0, 1);
     const before = new Date(Number.parseInt(end), 0, 1);
 
-    queryBuilder
-      .andWhere('"debut" >= :after', { after })
-      .andWhere('"debut" <= :before', { before });
+    if (difficulty !== 'easy') {
+      queryBuilder
+        .andWhere('"debut" >= :after', { after })
+        .andWhere('"debut" <= :before', { before });
+    }
 
-    // the player has an allstar appearahce
-    if (difficulty === 'normal') {
+    if (difficulty === 'easy') {
+      queryBuilder.andWhere('"inductedToHof" = true');
+    } else if (difficulty === 'normal') {
       queryBuilder.andWhere('"allstarAppearances" IS NOT NULL');
     }
 
@@ -54,12 +57,6 @@ export class PlayerService {
     }
 
     const players = await queryBuilder.getMany();
-
-    if (!players.length) {
-      // if the given criteria was unable to locate a player,
-      // strip all criteria and try again
-      return this.getPool('normal', start, end);
-    }
 
     // shuffle the results
     return players

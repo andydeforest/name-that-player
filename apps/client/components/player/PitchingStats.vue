@@ -69,7 +69,12 @@
             <td>{{ year.sacFlies }}</td>
             <td>{{ year.gidp }}</td>
             <td v-if="Object.keys(awards).length">
-              <strong v-if="Object.hasOwn(awards, year.year.toString())">
+              <strong
+                v-if="
+                  Object.hasOwn(awards, year.year.toString()) &&
+                  year.stint === 1
+                "
+              >
                 {{ awards[year.year.toString()].join(', ') }}
               </strong>
             </td>

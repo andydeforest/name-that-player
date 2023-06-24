@@ -9,7 +9,7 @@ export const useOptions = defineStore('options', {
     urlParameters(): string {
       return `difficulty=${this.difficulty}&start=${this.dateRange[0]}&end=${
         this.dateRange[1]
-      }${this.team ? `&team=${this.team}` : ''}`;
+      }${this.mode === 'team' && this.team ? `&team=${this.team}` : ''}`;
     },
   },
 });

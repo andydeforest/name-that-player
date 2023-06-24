@@ -17,6 +17,7 @@ const filesWeCareAbout = [
   { source: 'core\\Pitching.csv', destName: 'pitching.csv' },
   { source: 'core\\People.csv', destName: 'players.csv' },
   { source: 'contrib\\AwardsPlayers.csv', destName: 'awards.csv' },
+  { source: 'contrib\\HallOfFame.csv', destName: 'hof.csv' },
 ];
 
 // clone the databank

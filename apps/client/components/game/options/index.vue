@@ -19,9 +19,7 @@
             <div>
               <el-radio-group v-model="options.mode">
                 <el-radio-button label="random"> Random </el-radio-button>
-
                 <el-radio-button label="team"> Specific Team </el-radio-button>
-
                 <el-select
                   v-if="options.mode === 'team'"
                   class="game-options__team"
@@ -42,30 +40,33 @@
           </div>
           <div>
             <div>
-              <h4>Difficulty</h4>
+              <h4>Player Type</h4>
             </div>
             <div>
               <el-radio-group v-model="options.difficulty">
-                <el-radio-button label="normal"> Normal </el-radio-button>
-                <el-radio-button label="hard"> Hard </el-radio-button>
+                <el-radio-button label="easy"> Hall of Famers </el-radio-button>
+                <el-radio-button label="normal"> All Stars </el-radio-button>
+                <el-radio-button label="hard"> All </el-radio-button>
               </el-radio-group>
             </div>
           </div>
-          <div>
-            <h4>Played Between</h4>
-          </div>
-          <div>
-            <el-slider
-              v-model="options.dateRange"
-              range
-              show-input
-              :min="1883"
-              :max="2022"
-            />
-            <div class="center">
-              {{ options.dateRange[0] }} - {{ options.dateRange[1] }}
+          <template v-if="options.difficulty !== 'easy'">
+            <div>
+              <h4>Played Between</h4>
             </div>
-          </div>
+            <div>
+              <el-slider
+                v-model="options.dateRange"
+                range
+                show-input
+                :min="1883"
+                :max="2022"
+              />
+              <div class="center">
+                {{ options.dateRange[0] }} - {{ options.dateRange[1] }}
+              </div>
+            </div>
+          </template>
           <div>
             The current rules are selected to generate players that:
             <ul class="game-options__dialog--rules">
@@ -79,11 +80,14 @@
                     : 'a specific team'
                 }}
               </li>
-              <li>
+              <li v-if="options.difficulty !== 'easy'">
                 Debuted between {{ options.dateRange[0] }} and
                 {{ options.dateRange[1] }}
               </li>
-              <li v-if="options.difficulty === 'normal'">
+              <li v-if="options.difficulty === 'easy'">
+                Has been inducted into the Baseball Hall of Fame
+              </li>
+              <li v-else-if="options.difficulty === 'normal'">
                 Played on at least 1 All Star team
               </li>
               <li>
