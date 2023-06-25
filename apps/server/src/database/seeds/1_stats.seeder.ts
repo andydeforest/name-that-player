@@ -32,9 +32,9 @@ export default class StatsSeeder implements Seeder {
             const triples = Number.parseInt(stats['3B']);
             const homeRuns = Number.parseInt(stats['HR']);
             const singles = hits - (triples + doubles + homeRuns);
-            const walks = Number.parseInt(stats['BB']);
-            const hitByPitch = Number.parseInt(stats['HBP']);
-            const sacFlies = Number.parseInt(stats['SF']);
+            const walks = Number.parseInt(stats['BB']) ?? 0;
+            const hitByPitch = Number.parseInt(stats['HBP']) ?? 0;
+            const sacFlies = Number.parseInt(stats['SF']) ?? 0;
 
             const slugging =
               // eslint-disable-next-line prettier/prettier
