@@ -7,7 +7,7 @@
       <el-dialog
         v-model="optionsDialogOpen"
         title="Game Options"
-        width="30%"
+        :width="dialogWidth"
         @open="dialogOpened"
         @close="dialogClosed"
       >
@@ -180,6 +180,16 @@ export default {
         this.poolCheck.value = res as number;
         this.poolCheck.loading = false;
       }, 1000) as NodeJS.Timeout;
+    },
+  },
+  computed: {
+    dialogWidth() {
+      if (this.$device.isMobile) {
+        return '95%';
+      } else if (this.$device.isTablet) {
+        return '60%';
+      }
+      return '35%';
     },
   },
   watch: {

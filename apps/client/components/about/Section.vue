@@ -66,7 +66,8 @@
           <p>
             The dataset used only features complete season stats, so if a season
             is still underway, the statistics will not be available until it has
-            concluded.
+            concluded. Furthermore, some awards for the previous season might
+            not be available in the dataset yet.
           </p>
           <h4>Where do you get your data from? Are you sure it's accurate?</h4>
           <p>
