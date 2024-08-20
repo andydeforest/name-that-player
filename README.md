@@ -1,5 +1,5 @@
 # Name That Player
-Name That Player is a baseball player guessing game based on historical season statistics. A user is presented with hitting and/or pitching statistics of a former or current MLB player, and must deduce who it is based on the data. Players are allowed unlimited tries at guessing thhe correct player.
+Name That Player is a baseball player guessing game based on historical season statistics. A user is presented with hitting and/or pitching statistics of a former or current MLB player, and must deduce who it is based on the data. Players are allowed unlimited tries at guessing the correct player.
 
 ## Installation
 
